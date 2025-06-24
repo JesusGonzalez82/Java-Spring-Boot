@@ -14,13 +14,16 @@ public class Customer {
 
     private String status;
 
+    private String username;
+
     //Constructor
-    public Customer(int ID, String nombre, String password, String birthday, String status) {
+    public Customer(int ID, String nombre, String password, String birthday, String status, String username) {
         this.ID = ID;
         this.nombre = nombre;
         this.password = password;
         this.birthday = birthday;
         this.status = status;
+        this.username = username;
     }
 
     public int getID() {
@@ -61,5 +64,13 @@ public class Customer {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
