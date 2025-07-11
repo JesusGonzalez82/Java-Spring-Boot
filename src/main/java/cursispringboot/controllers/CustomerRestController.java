@@ -1,6 +1,8 @@
 package cursispringboot.controllers;
 
 import cursispringboot.domain.Customer;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -19,30 +21,40 @@ public class CustomerRestController {
     ));
 
     // @RequestMapping(method = RequestMethod.GET)
+    // Consultar todos los clientes
     @GetMapping
-    public List<Customer> getCustomer() {
-        return users;
+    public ResponseEntity<List<Customer>> getCustomer() {
+
+        return ResponseEntity.ok(users);
+        //return users;
     }
 
     // @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    // Consultar un cliente por su username
     @GetMapping("/{username}")
-    public Customer getCliente(@PathVariable String username) {
+    public ResponseEntity<?> getCliente(@PathVariable String username) {
         for (Customer c : users) {
             if (c.getUsername().equalsIgnoreCase(username)) {
-                return c;
+                return ResponseEntity.ok(c);
+                //return c;
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado con username: " + username);
+        //return null;
     }
 
     // @RequestMapping(method = RequestMethod.POST)
+    // Creamos un nuevo usuario
     @PostMapping
-    public Customer addUserPost(@RequestBody Customer newUsers) {
+    public ResponseEntity<?>  addUserPost(@RequestBody Customer newUsers) {
         users.add(newUsers);
-        return newUsers;
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("Usuario " + newUsers.getUsername() + " creado correctamente");
+        //return newUsers;
     }
 
     // @RequestMapping(method = RequestMethod.PUT)
+    // Modificacion usuario
     @PutMapping
     public Customer putCliente(@RequestBody Customer user) {
         for (Customer c : users) {
@@ -58,6 +70,7 @@ public class CustomerRestController {
     }
 
     // @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    // Eliminar un cliente
     @DeleteMapping("/{id}")
     public Customer deleteCliente(@PathVariable int id){
         for (Customer c : users){
@@ -70,6 +83,7 @@ public class CustomerRestController {
     }
 
     // @RequestMapping(method = RequestMethod.PATCH)
+    // Modificacion parcial de un cliente
     @PatchMapping
     public Customer patchCliente(@RequestBody Customer user){
         for(Customer c : users){
