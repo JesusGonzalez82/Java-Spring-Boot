@@ -56,36 +56,39 @@ public class CustomerRestController {
     // @RequestMapping(method = RequestMethod.PUT)
     // Modificacion usuario
     @PutMapping
-    public Customer putCliente(@RequestBody Customer user) {
+    public ResponseEntity<?> putCliente(@RequestBody Customer user) {
         for (Customer c : users) {
             if (c.getID() == user.getID()) {
                 c.setNombre(user.getNombre());
                 c.setUsername(user.getUsername());
                 c.setPassword(user.getPassword());
 
-                return c;
+                return ResponseEntity.ok("Usuario modificado correctamente: " + user.getID());
+                //return c;
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado: " + user.getID());
     }
 
     // @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     // Eliminar un cliente
     @DeleteMapping("/{id}")
-    public Customer deleteCliente(@PathVariable int id){
+    public ResponseEntity<?> deleteCliente(@PathVariable int id){
         for (Customer c : users){
             if (c.getID() == id) {
                 users.remove(c);
-                return c;
+
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Usuario eliminado correctamente " + c.getID());
+                //return c;
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado con el ID: " + id);
     }
 
     // @RequestMapping(method = RequestMethod.PATCH)
     // Modificacion parcial de un cliente
     @PatchMapping
-    public Customer patchCliente(@RequestBody Customer user){
+    public ResponseEntity<?> patchCliente(@RequestBody Customer user){
         for(Customer c : users){
             if(c.getID() == user.getID()){
                 if(user.getNombre() != null){
@@ -97,10 +100,10 @@ public class CustomerRestController {
                 if(user.getPassword() != null){
                     c.setPassword(user.getPassword());
                 }
-                return c;
+                return ResponseEntity.ok("Usuario modificado correctamente: " + user.getID());
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado con el ID: " + user.getID());
     }
 
 }
