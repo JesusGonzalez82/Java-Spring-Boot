@@ -4,7 +4,9 @@ import cursispringboot.domain.Customer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,8 +51,15 @@ public class CustomerRestController {
     public ResponseEntity<?>  addUserPost(@RequestBody Customer newUsers) {
         users.add(newUsers);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Usuario " + newUsers.getUsername() + " creado correctamente");
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{username}")
+                .buildAndExpand(newUsers.getUsername())
+                .toUri();
+
         //return newUsers;
+        //return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(newUsers);
     }
 
     // @RequestMapping(method = RequestMethod.PUT)
@@ -63,11 +72,11 @@ public class CustomerRestController {
                 c.setUsername(user.getUsername());
                 c.setPassword(user.getPassword());
 
-                return ResponseEntity.ok("Usuario modificado correctamente: " + user.getID());
+                return ResponseEntity.noContent().build();
                 //return c;
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado: " + user.getID());
+        return ResponseEntity.notFound().build();
     }
 
     // @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -78,11 +87,11 @@ public class CustomerRestController {
             if (c.getID() == id) {
                 users.remove(c);
 
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Usuario eliminado correctamente " + c.getID());
+                return ResponseEntity.noContent().build();
                 //return c;
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado con el ID: " + id);
+        return ResponseEntity.notFound().build();
     }
 
     // @RequestMapping(method = RequestMethod.PATCH)
