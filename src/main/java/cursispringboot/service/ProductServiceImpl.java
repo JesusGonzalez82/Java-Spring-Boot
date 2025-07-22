@@ -1,14 +1,25 @@
 package cursispringboot.service;
 
 import cursispringboot.domain.Product;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Lazy
 @Service
+@ConditionalOnProperty(name = "service.products", havingValue = "list")
+//@ConditionalOnProperties(name = "service.products", havingValue = "List")
 public class ProductServiceImpl implements ProductService{
+
+
+    public ProductServiceImpl() {
+        System.out.println("Instancia de la clase ProductServiceImpl");
+    }
 
     // Listado de Productos
     List<Product> products = new ArrayList<>(Arrays.asList(

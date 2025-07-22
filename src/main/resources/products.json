@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Portatil",
+    "price": 999.99,
+    "stock": 10
+  },
+  {
+    "id": 2,
+    "name": "iPad",
+    "price": 299.99,
+    "stock": 3
+  },
+  {
+    "id": 3,
+    "name": "Teclado mecánico",
+    "price": 107.99,
+    "stock": 5
+  },
+  {
+    "id": 4,
+    "name": "USB Hub",
+    "price": 99.99,
+    "stock": 0
+  }
+]
