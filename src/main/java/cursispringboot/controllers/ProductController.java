@@ -1,5 +1,6 @@
 package cursispringboot.controllers;
 
+import cursispringboot.configurations.ExternalizedConfigurations;
 import cursispringboot.domain.Product;
 import cursispringboot.service.ProductService;
 import cursispringboot.service.ProductServiceImpl;
@@ -24,8 +25,14 @@ public class ProductController {
     //@Qualifier("jsonResourceService")
     private ProductService productService;
 
+    @Autowired
+    private ExternalizedConfigurations externalizedConfigurations;
+
     @GetMapping
     public ResponseEntity<?> getProducts(){
+
+        System.out.println(externalizedConfigurations.toString());
+
         List<Product> products = productService.getProducts();
 
         return ResponseEntity.ok(products);
